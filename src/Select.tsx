@@ -4,23 +4,40 @@ type SelectOption = {
   label: string;
   value: string;
 };
+type SingleSelectProps = {
+  multiple: false;
+  value?: SelectOption;
+  onChange: (value: SelectOption | undefined) => void;
+};
+
+type MultipleSelectProps = {
+  multiple: true;
+  value: SelectOption[];
+  onChange: (value: SelectOption[]) => void;
+};
 type SelectProps = {
   options: SelectOption[];
-  value?: SelectOption | null;
-  onChange: (value: SelectOption | null) => void;
-};
-export function Select({ options, value, onChange }: SelectProps) {
+} & (SingleSelectProps | MultipleSelectProps);
+export function Select({ multiple, options, value, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   useEffect(() => {
     setHighlightedIndex(0);
   }, [isOpen]);
   function clearOptions() {
-    onChange(null);
+    multiple ? onChange([]) : onChange(undefined);
   }
 
   function selectOption(option: SelectOption) {
-    onChange(option);
+    if (multiple) {
+      if (value.includes(option)) {
+        onChange(value.filter((o) => o !== option));
+      } else {
+        onChange([...value, option]);
+      }
+    } else {
+      onChange(option);
+    }
   }
 
   function isOptionSelected(option: SelectOption) {
@@ -34,7 +51,23 @@ export function Select({ options, value, onChange }: SelectProps) {
       tabIndex={0}
       className={styles.container}
     >
-      <span className={styles.value}>{value?.label}</span>
+      <span className={styles.value}>
+        {multiple
+          ? value.map((element) => (
+              <button
+                key={element.value}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  selectOption(element);
+                }}
+                className={styles["option-badge"]}
+              >
+                {element.label}
+                <span className={styles["remove-btn"]}>&times;</span>
+              </button>
+            ))
+          : value?.label}
+      </span>
       <button
         onClick={(e) => {
           e.stopPropagation();

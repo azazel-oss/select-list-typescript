@@ -14,10 +14,22 @@ const options = [
   { label: "Fifth", value: "5" },
 ];
 function App() {
-  const [value, setValue] = useState<option | null>(options[0]);
+  const [value, setValue] = useState<option | undefined>(options[0]);
+  const [values, setValues] = useState<option[]>([]);
   return (
     <>
-      <Select options={options} value={value} onChange={(o) => setValue(o)} />
+      <Select
+        multiple={false}
+        options={options}
+        value={value}
+        onChange={(o) => setValue(o)}
+      />
+      <Select
+        multiple={true}
+        options={options}
+        value={values}
+        onChange={(o) => setValues(o)}
+      />
     </>
   );
 }

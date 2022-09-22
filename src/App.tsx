@@ -1,5 +1,6 @@
 import { Select } from "./Select";
 import { useState } from "react";
+import "./App.css";
 
 type option = {
   label: string;
@@ -17,20 +18,22 @@ function App() {
   const [value, setValue] = useState<option | undefined>(options[0]);
   const [values, setValues] = useState<option[]>([]);
   return (
-    <>
+    <div className="d-flex">
       <Select
+        title="Single Select"
         multiple={false}
         options={options}
         value={value}
         onChange={(o) => setValue(o)}
       />
       <Select
+        title="Multi Select"
         multiple={true}
         options={options}
         value={values}
         onChange={(o) => setValues(o)}
       />
-    </>
+    </div>
   );
 }
 

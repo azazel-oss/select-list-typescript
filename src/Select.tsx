@@ -10,7 +10,7 @@ type SelectProps = {
 };
 export function Select({ options, value, onChange }: SelectProps) {
   return (
-    <div className={styles.container}>
+    <div tabIndex={0} className={styles.container}>
       <span className={styles.value}>Value</span>
       <button className={styles["clear-btn"]}>&times;</button>
       <div className={styles.divider}></div>

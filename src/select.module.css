@@ -57,7 +57,7 @@
   overflow-y: auto;
   border: 1px solid #777;
   border-radius: 0.25em;
-  /* display: none; */
+  display: none;
 }
 
 .options.show {

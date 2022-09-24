@@ -37,7 +37,6 @@ export function Select({
   useEffect(() => {
     const handlerFunction = (e: KeyboardEvent) => {
       if (e.target !== containerRef.current) return;
-      console.log(e.code);
       switch (e.code) {
         case "Enter":
         case "Space":
@@ -55,12 +54,14 @@ export function Select({
           }
           break;
         case "ArrowDown":
-          if (!isOpen) break;
+          if (!isOpen) setIsOpen(true);
           if (highlightedIndex === options.length - 1) {
             setHighlightedIndex(0);
           } else {
             setHighlightedIndex((prevIndex) => prevIndex + 1);
           }
+          break;
+        default:
           break;
       }
     };
